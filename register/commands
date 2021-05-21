@@ -1,0 +1,2 @@
+sipp -sf reg_uac.xml -inf users.csv -i 1.1.1.104 -p 5060 1.1.1.53:5060 -m 1
+sipp -sf reg_uas.xml -inf users.csv -i 172.16.1.104 -p 6050 172.16.1.53:5060 -m 1

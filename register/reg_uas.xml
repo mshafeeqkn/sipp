@@ -4,6 +4,25 @@
 <scenario name="Basic UAS registrar with authentication">
 
   <recv request="REGISTER" />
+
+  <send>
+    <![CDATA[
+
+      SIP/2.0 401 Unauthorized
+      [last_Via:]
+      [last_From:]
+      [last_To:];tag=[pid]sipp[call_number]
+      [last_Call-ID:]
+      [last_CSeq:]
+      WWW-Authenticate: Digest algorithm=MD5, realm="sipp", nonce="112eb3ad", stale=true
+      Content-Length: 0
+
+    ]]>
+  </send>
+
+  <recv request="REGISTER">
+  </recv>
+
   <send>
     <![CDATA[
       SIP/2.0 200 OK
@@ -12,7 +31,7 @@
       [last_To:];tag=[call_number]
       [last_Call-ID:]
       [last_CSeq:]
-      Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+      [last_Contact:]
       Content-Length: 0
       Expires: 60
     ]]>

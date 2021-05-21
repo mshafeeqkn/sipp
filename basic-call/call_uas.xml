@@ -76,14 +76,12 @@
     ]]>
   </send>
 
-  <recv request="ACK"
-        rtd="true"
-        crlf="true">
+  <recv request="ACK" rtd="true" crlf="true">
   </recv>
 
   <nop>
     <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0"/>
+      <exec rtp_stream="../audio/pcmu_quran.wav,-1,0"/>
     </action>
   </nop>
   <pause milliseconds="10000"/>
