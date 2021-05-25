@@ -87,11 +87,6 @@
     </action>
   </nop>
   <pause milliseconds="10000"/>
-  <nop crlf="true">
-    <action>
-      <exec rtp_stream="pause"/>
-    </action>
-  </nop>
 
   <recv request="INVITE">
   </recv>
@@ -126,8 +121,8 @@
         crlf="true">
   </recv>
 
-  <recv request="INVITE">
-  </recv>
+  <recv request="BYE" optional="true" next="bye_rx" crlf="true"/>
+  <recv request="INVITE"/>
 
   <send retrans="500">
     <![CDATA[
@@ -158,11 +153,6 @@
         crlf="true">
   </recv>
 
-  <nop>
-    <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0"/>
-    </action>
-  </nop>
   <pause milliseconds="10000"/>
   <nop crlf="true">
     <action>
@@ -170,9 +160,8 @@
     </action>
   </nop>
 
-  <recv request="BYE">
-  </recv>
 
+  <label id="bye_rx" />
   <send crlf="true">
     <![CDATA[
 
