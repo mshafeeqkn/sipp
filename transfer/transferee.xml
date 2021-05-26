@@ -162,6 +162,7 @@
 
 
   <label id="bye_rx" />
+  <recv request="BYE" crlf="true"/>
   <send crlf="true">
     <![CDATA[
 
