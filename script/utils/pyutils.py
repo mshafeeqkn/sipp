@@ -15,11 +15,17 @@ class SSHClient:
             del self.client
             sys.exit(-1)
 
-    def execute(self, cmd, parser):
-        logging.debug('Executing: {}'.format(cmd))
+    def execute(self, cmd, parser=None):
+        logging.debug('{}$ {}'.format(self.name, cmd))
         stdin, stdout, stderr = self.client.exec_command(cmd)
         data = [m for m in stdout]
-        parser(data)
+        if parser:
+            for m in data:
+                logging.debug('{}$ {}'.format(self.name, m.strip()))
+            return parser(data)
+        else:
+            logging.debug(data)
+            return None
 
     def __del__(self):
         self.client.close()
