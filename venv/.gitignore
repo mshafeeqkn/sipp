@@ -1,0 +1,6 @@
+lib
+bin/pip*
+bin/python*
+bin/wheel*
+bin/activate*
+pyvenv.cfg
