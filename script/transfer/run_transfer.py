@@ -61,15 +61,13 @@ if __name__ == '__main__':
 
     em = SSHClient(user='root', ip=dev_ip, passwd=dev_pass)
     dev_conf = em.execute('cat /etc/config/sipdptargets', my_parser)
-    init_sipp = 'sipp -i {ip} -p {port} -sf initiator.xml -inf users.csv {dev_ip}:5060 -m 1'.format(
-        ip=dev_conf[initiator]['ip'], port=dev_conf[initiator]['port'], dev_ip=dev_ip
-    )
-    xferee_sipp = 'sipp -i {ip} -p {port} -sf xferee.xml -inf users.csv {dev_ip}:5060 -m 1'.format(
-        ip=dev_conf[xferee]['ip'], port=dev_conf[xferee]['port'], dev_ip=dev_ip
-    )
-    target_sipp = 'sipp -i {ip} -p {port} -sf target.xml -inf users.csv {dev_ip}:5060 -m 1'.format(
-        ip=dev_conf[target]['ip'], port=dev_conf[target]['port'], dev_ip=dev_ip
-    )
+    sipp_cmd = 'sipp -i {ip} -p {port} -sf {sf} -inf users.csv {dev_ip}:5060 -m 1'
+    init_sipp = sipp_cmd.format(ip=dev_conf[initiator]['ip'],
+            port=dev_conf[initiator]['port'], sf='initiator.xml', dev_ip=dev_ip)
+    xferee_sipp = sipp_cmd.format(ip=dev_conf[xferee]['ip'],
+            port=dev_conf[xferee]['port'], sf='xferee.xml', dev_ip=dev_ip)
+    target_sipp = sipp_cmd.format(ip=dev_conf[target]['ip'],
+            port=dev_conf[target]['port'], sf='target.xml', dev_ip=dev_ip)
     logging.info("Initiator command: {}".format(init_sipp))
     logging.info("Transferee command: {}".format(xferee_sipp))
     logging.info("Target command: {}".format(target_sipp))
