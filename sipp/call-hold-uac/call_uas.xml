@@ -65,7 +65,7 @@
 
   <nop>
     <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0"/>
+       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0,PCMU/8000"/>
     </action>
   </nop>
   <pause milliseconds="10000"/>
@@ -142,7 +142,7 @@
 
   <nop>
     <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0"/>
+       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0,PCMU/8000"/>
     </action>
   </nop>
   <pause milliseconds="10000"/>
