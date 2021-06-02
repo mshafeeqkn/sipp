@@ -100,6 +100,7 @@
 
     ]]>
   </send>
+  <pause milliseconds="1000"/>
   <send retrans="500">
     <![CDATA[
 
@@ -115,7 +116,7 @@
       Expires: 600
       Accept: message/sipfrag;version=2.0
       Allow-Events: presence, message-summary, refer
-      Refer-To: <sip:[field2]@[remote_ip]:[remote_port]>
+      Refer-To: <sip:[field2]@[field3]:[remote_port]>
       Referred-By: <sip:[field0]@[remote_ip]:[remote_port]>
       User-Agent: MicroSIP/3.20.3
       Content-Length:  0
@@ -142,7 +143,7 @@
     ]]>
   </send>
 
-  <!--recv request="NOTIFY"/>
+  <recv request="NOTIFY"/>
 
   <send crlf="true">
     <![CDATA[
@@ -175,7 +176,7 @@
     ]]>
   </send>
 
-  <recv response="200" crlf="true"/-->
+  <recv response="200" crlf="true"/>
 
   <ResponseTimeRepartition value="10, 20, 30, 40, 50, 100, 150, 200"/>
   <CallLengthRepartition value="10, 50, 100, 500, 1000, 5000, 10000"/>
