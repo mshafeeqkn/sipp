@@ -31,5 +31,3 @@ class SSHClient:
         self.client.close()
         logging.info('Closing connection to {}'.format(self.name))
         del self.client
-
-
