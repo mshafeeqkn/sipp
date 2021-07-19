@@ -1,0 +1,4 @@
+rm *log
+sipp -trace_screen -log_file uac_log.log -sf call_uas_3pcc_2.xml -inf users.csv -i 172.16.1.104 -p 5081 172.16.1.53:5060 -m 1 -3pcc 127.0.0.1:4001 -bg
+sipp -trace_screen -sf call_uas_3pcc_1.xml -inf users.csv -i 172.16.1.104 -p 5080 172.16.1.53:5060 -m 1 -3pcc 127.0.0.1:4001 -bg
+sipp -trace_screen -sf call_uac.xml -inf users.csv -i 1.1.1.104 -p 5070 1.1.1.53:5060 -m 1
