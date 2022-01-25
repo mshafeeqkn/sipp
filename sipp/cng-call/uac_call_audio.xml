@@ -89,14 +89,20 @@
   <!-- Play a pre-recorded PCAP file (RTP stream)                       -->
   <nop>
       <action>
-          <exec play_pcap_audio="/home/shafeeque/tmp/Teams_To_PSTN_Cisco/out.pcap"/>
+          <exec play_pcap_audio="em-26894-100-pkts-1.pcap"/>
           <!--exec play_pcap_audio="pcap/5minG711.pcap"/-->
+      </action>
+  </nop>
+  <pause milliseconds="11000"/>
+  <nop>
+      <action>
+          <exec play_pcap_audio="em-26894-100-pkts-2.pcap"/>
       </action>
   </nop>
 
   <!-- This delay can be customized by the -d command-line option       -->
   <!-- or by adding a 'milliseconds = "value"' option here.             -->
-  <pause/>
+  <pause milliseconds="2000"/>
 
   <!-- The 'crlf' option inserts a blank line in the statistics report. -->
   <send retrans="500">

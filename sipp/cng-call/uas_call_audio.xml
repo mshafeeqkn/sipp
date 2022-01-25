@@ -70,10 +70,7 @@
       s=-
       c=IN IP[media_ip_type] [media_ip]
       t=0 0
-      m=audio [media_port] RTP/AVP 3 18 4 0 13 127
-      a=rtpmap:3 GSM/8000
-      a=rtpmap:18 G729/8000
-      a=rtpmap:4 G723/8000
+      m=audio [media_port] RTP/AVP 0 13 127
       a=rtpmap:0 PCMU/8000
       a=rtpmap:13 CN/8000
       a=rtpmap:127 telephone-event/8000
@@ -87,11 +84,11 @@
   </recv>
 
   <!-- Play a pre-recorded PCAP file (RTP stream)                       -->
-  <nop>
-      <!--action>
+  <!--nop>
+      <action>
           <exec play_pcap_audio="pcap/5minG711.pcap"/>
-      </action-->
-  </nop>
+      </action>
+  </nop-->
 
   <recv request="BYE">
   </recv>
