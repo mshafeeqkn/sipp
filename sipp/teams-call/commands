@@ -1,0 +1,2 @@
+Run Teams with UAC
+sipp -sf call_uac.xml -inf users.csv -i 1.1.1.104 -p 5060 1.1.1.49:5060 -m 1
