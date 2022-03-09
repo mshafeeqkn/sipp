@@ -1,0 +1,2 @@
+sudo sipp -sf uac_call_audio.xml -inf users.csv -i 1.1.1.104 -p 5060 1.1.1.53:5060 -m 1 -mp 10000 -d 5s
+sudo sipp -sf uas_call_audio.xml -inf users.csv -i 172.16.1.104 -p 5060 172.16.1.53:5060 -m 1 -mp 20000
