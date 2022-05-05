@@ -1,0 +1,7 @@
+Upload ca.pem to EM as CA certificate, Set TLS protocol as TLSv1.0 in VoIP page
+SIP_ENABLE_TLSv1_0_PROTO=on @ alg_defs.conf
+Upload dev_172.16.1.47.crt and dev_172.16.1.47.key as SSL certificate and key
+
+EM outbound call
+sipp -i 172.16.1.132 -p 5061 -sf em-outbound/call_uas.xml -inf users.csv -m 1 172.16.1.47 -t ln -tls_cert dev_172.16.1.132.pem -tls_key dev_172.16.1.132.key -max_socket 100
+sipp -i 1.1.1.104 -p 5060 -inf users.csv -sf em-outbound/call_uac.xml -m 1 1.1.1.47:5060
