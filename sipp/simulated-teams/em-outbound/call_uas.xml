@@ -109,9 +109,9 @@
   <recv request="ACK" rtd="true" crlf="true">
   </recv>
 
-  <pause milliseconds="5000"/>
+  <pause milliseconds="5000" crlf="true"/>
 
-  <send crlf="true">
+  <send>
     <![CDATA[
 
       INVITE [$remote_contact] SIP/2.0
@@ -157,7 +157,7 @@
    <recv response="200">
    </recv>
 
-   <send>
+   <send crlf="true">
     <![CDATA[
 
      ACK [$remote_contact] SIP/2.0
