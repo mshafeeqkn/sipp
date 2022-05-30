@@ -1,4 +1,5 @@
-Upload ca.pem to EM as CA certificate
-Upload dev_123.63.138.125.crt and dev_123.63.138.125.key as SSL certificate and key
+Upload ca.pem to EM as CA certificate, Set TLS protocol as TLSv1.0 in VoIP page
+
+Upload dev_123.63.138.126.crt and dev_123.63.138.126.key as SSL certificate and key
 
 sipp -i 123.63.138.125 -p 5061 -inf users.csv -sf call_uac.xml -m 1 123.63.138.126:5061 -t ln -tls_cert dev_123.63.138.125.pem -tls_key dev_123.63.138.125.key -max_socket 100
