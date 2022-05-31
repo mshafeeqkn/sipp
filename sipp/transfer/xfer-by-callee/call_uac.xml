@@ -138,26 +138,22 @@
 
   <recv request="ACK" rtd="true" crlf="true"/>
 
-  <pause milliseconds="15000" crlf="true"/>
-  <!-- The 'crlf' option inserts a blank line in the statistics report. -->
-  <send retrans="500">
+  <recv request="BYE">
+  </recv>
+
+  <send crlf="true">
     <![CDATA[
 
-      BYE sip:[field1]@[remote_ip]:[remote_port] SIP/2.0
-      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
-      From: [field0] <sip:[field0]@[local_ip]:[local_port]>;tag=[pid]SIPpTag00[call_number]
-      To: [field1] <sip:[field1]@[remote_ip]:[remote_port]>[peer_tag_param]
-      Call-ID: [call_id]
-      CSeq: 3 BYE
-      Max-Forwards: 70
-      Subject: Performance Test
+      SIP/2.0 200 OK
+      [last_Via:]
+      [last_From:]
+      [last_To:]
+      [last_Call-ID:]
+      [last_CSeq:]
       Content-Length: 0
 
     ]]>
   </send>
-
-  <recv response="200" crlf="true">
-  </recv>
 
   <!-- definition of the response time repartition table (unit is ms)   -->
   <ResponseTimeRepartition value="10, 20, 30, 40, 50, 100, 150, 200"/>

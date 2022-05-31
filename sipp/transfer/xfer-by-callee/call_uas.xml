@@ -84,15 +84,14 @@
     ]]>
   </send>
 
-  <recv request="ACK" rtd="true">
-  </recv>
+  <recv request="ACK" rtd="true" crlf="true"/>
 
   <pause milliseconds="5000" crlf="true"/>
 
   <send retrans="500">
     <![CDATA[
 
-      INVITE [$remote_contact] SIP/2.0
+      INVITE [$remote_contact];transport=[transport] SIP/2.0
       Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
       From: [field1]  <sip:[field1]@[local_ip]:[local_port]>;tag=[pid]SIPpTag01[call_number]
       To: [$remote_from]
@@ -118,7 +117,7 @@
 
   <recv response="200"/>
 
-  <send>
+  <send crlf="true">
     <![CDATA[
 
       ACK [$remote_contact] SIP/2.0
@@ -153,7 +152,7 @@
     ]]>
   </send>
 
-  <recv response="202"/>
+  <recv response="202" crlf="true"/>
 
   <recv request="NOTIFY"/>
   <send>
@@ -172,7 +171,7 @@
 
   <recv request="NOTIFY"/>
 
-  <send>
+  <send crlf="true">
     <![CDATA[
       SIP/2.0 200 OK
       [last_Via:]
@@ -204,7 +203,7 @@
 
   <recv response="200"/>
 
-  <timewait milliseconds="4000"/>
+  <timewait milliseconds="2000"/>
 
   <!-- definition of the response time repartition table (unit is ms)   -->
   <ResponseTimeRepartition value="10, 20, 30, 40, 50, 100, 150, 200"/>
