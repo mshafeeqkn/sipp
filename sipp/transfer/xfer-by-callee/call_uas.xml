@@ -26,7 +26,10 @@
   <recv request="INVITE">
     <action>
       <ereg regexp=".*" search_in="hdr" header="From" assign_to="remote_from"/>
-      <ereg regexp="sip:(.*)>.*" search_in="hdr" header="Contact" assign_to="trash,remote_contact"/>
+      <!-- For TLS Transport.                                           -->
+      <ereg regexp="sips:(.*)>.*" search_in="hdr" header="Contact" assign_to="trash,remote_contact"/>
+      <!-- For UDP Transport.                                           -->
+      <!--ereg regexp="sip:(.*)>.*" search_in="hdr" header="Contact" assign_to="trash,remote_contact"/-->
     </action>
   </recv>
   <Reference variables="trash"/>
