@@ -57,13 +57,8 @@
   <recv response="183" optional="true">
   </recv>
 
-  <!-- By adding rrs="true" (Record Route Sets), the route sets         -->
-  <!-- are saved and used for following messages sent. Useful to test   -->
-  <!-- against stateful SIP proxies/B2BUAs.                             -->
   <recv response="200"/>
 
-  <!-- Packet lost can be simulated in any send/recv message by         -->
-  <!-- by adding the 'lost = "10"'. Value can be [1-100] percent.       -->
   <send crlf="true">
     <![CDATA[
 
@@ -81,21 +76,8 @@
     ]]>
   </send>
 
-  <!-- This delay can be customized by the -d command-line option       -->
-  <!-- or by adding a 'milliseconds = "value"' option here.             -->
-  <nop>
-    <action>
-      <exec rtp_stream="../audio/pcmu_quran.wav,-1,0,PCMU/8000"/>
-    </action>
-  </nop>
   <pause milliseconds="10000"/>
-  <nop crlf="true">
-    <action>
-      <exec rtp_stream="pause"/>
-    </action>
-  </nop>
 
-  <!-- The 'crlf' option inserts a blank line in the statistics report. -->
   <send retrans="500">
     <![CDATA[
 
@@ -115,10 +97,8 @@
   <recv response="200" crlf="true">
   </recv>
 
-  <!-- definition of the response time repartition table (unit is ms)   -->
   <ResponseTimeRepartition value="10, 20, 30, 40, 50, 100, 150, 200"/>
 
-  <!-- definition of the call length repartition table (unit is ms)     -->
-  <CallLengthRepartition value="10, 50, 100, 500, 1000, 5000, 10000"/>
+  <CallLengthRepartition value="10, 50, 100, 500, 1000, 5000, 10000"/-->
 
 </scenario>
