@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Usage - cmd_uac       - For normal call
+#         cmd_uac -t    - For transparent call
+
+MODE=$1
+
+TARGET=$DEV_IP     # Edgemarc LAN IP
+if [ "$MODE" = "-t" ]; then
+    # SIP server IP
+    TARGET=172.16.1.137
+fi
+
+sipp -sf reg_uac.xml  -inf users_1.csv -i 1.1.1.104 -p 5070 $TARGET:5060 -m 1
+sipp -sf call_uac.xml -inf users_2.csv -i 1.1.1.104 -p 5070 $TARGET:5060 -m 1

@@ -81,69 +81,63 @@
     ]]>
   </send>
 
-  <!-- This delay can be customized by the -d command-line option       -->
-  <!-- or by adding a 'milliseconds = "value"' option here.             -->
-  <pause milliseconds="10000"/>
+  <recv request="INVITE"/>
 
-  <!-- Transfer to field2                                               -->
   <send retrans="500">
     <![CDATA[
 
-      REFER sip:[field1]@[remote_ip]:[remote_port] SIP/2.0
-      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
-      Max-Forwards: 70
-      From: <sip:[field0]@[remote_ip]>;tag=[pid]SIPpTag00[call_number]
-      To: <sip:[field1]@[remote_ip]>[peer_tag_param]
-      Contact: <sip:[field0]@[local_ip]:[local_port];ob>
-      Call-ID: [call_id]
-      CSeq: 2 REFER
-      Event: refer
-      Expires: 600
-      Accept: message/sipfrag;version=2.0
-      Allow-Events: presence, message-summary, refer
-      Refer-To: <sip:[field2]@[remote_ip]:[remote_port]>
-      Referred-By: <sip:[field0]@[remote_ip]:[remote_port]>
-      User-Agent: MicroSIP/3.20.3
-      Content-Length:  0
+      SIP/2.0 200 OK
+      [last_Via:]
+      [last_From:]
+      [last_To:];tag=[pid]SIPpTag00[call_number]
+      [last_Call-ID:]
+      [last_CSeq:]
+      Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
+      Content-Type: application/sdp
+      Content-Length: [len]
+
+      v=0
+      o=user1 53655767 2353687639 IN IP[local_ip_type] [local_ip]
+      s=-
+      c=IN IP[media_ip_type] 0.0.0.0
+      t=0 0
+      m=audio 0 RTP/AVP 0
+      a=rtpmap:0 PCMU/8000
 
     ]]>
   </send>
 
-  <recv response="202"/>
+  <recv request="ACK" rtd="true" crlf="true"/>
 
-  <recv request="NOTIFY"/>
+  <recv request="INVITE"/>
 
-  <send crlf="true">
+  <send retrans="500">
     <![CDATA[
 
       SIP/2.0 200 OK
       [last_Via:]
       [last_From:]
-      [last_To:]
+      [last_To:];tag=[pid]SIPpTag00[call_number]
       [last_Call-ID:]
       [last_CSeq:]
       Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
-      Content-Length: 0
+      Content-Type: application/sdp
+      Content-Length: [len]
+
+      v=0
+      o=user1 53655769 2353687641 IN IP[local_ip_type] [local_ip]
+      s=-
+      c=IN IP[media_ip_type] [media_ip]
+      t=0 0
+      m=audio [rtpstream_audio_port] RTP/AVP 0
+      a=rtpmap:0 PCMU/8000
 
     ]]>
   </send>
 
-  <recv request="NOTIFY"/>
+  <recv request="ACK" rtd="true" crlf="true"/>
 
-  <send crlf="true">
-    <![CDATA[
-
-      SIP/2.0 200 OK
-      [last_Via:]
-      [last_From:]
-      [last_To:]
-      [last_Call-ID:]
-      [last_CSeq:]
-      Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
-      Content-Length: 0
-
-    ]]>
-  </send>
+  <pause milliseconds="5000"/>
 
   <!-- The 'crlf' option inserts a blank line in the statistics report. -->
   <send retrans="500">

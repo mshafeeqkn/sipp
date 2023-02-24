@@ -83,17 +83,7 @@
 
   <!-- This delay can be customized by the -d command-line option       -->
   <!-- or by adding a 'milliseconds = "value"' option here.             -->
-  <nop>
-    <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0"/>
-    </action>
-  </nop>
   <pause milliseconds="10000"/>
-  <nop crlf="true">
-    <action>
-      <exec rtp_stream="pause"/>
-    </action>
-  </nop>
 
   <!-- The 'crlf' option inserts a blank line in the statistics report. -->
   <send retrans="500">

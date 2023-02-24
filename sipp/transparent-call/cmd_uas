@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sipp -sf reg_uas.xml -inf  users_1.csv -i 172.16.1.137 -p 5060 172.16.1.59:5060 -m 1
+sipp -sf call_uas.xml -inf users_2.csv -i 172.16.1.137 -p 5060 172.16.1.59:5060 -m 1

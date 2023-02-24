@@ -1,5 +1,0 @@
-sudo ip route add 172.16.1.132/32 via 1.1.1.40
-
-
-sipp -sf reg_uac.xml -inf users.csv -i 1.1.1.104 -p 5070 172.16.1.132:5060 -m 1
-sipp-3.6 -sf reg_uas.xml -inf users.csv -i 172.16.1.132 -p 5060 172.16.1.53:5060 -m 1

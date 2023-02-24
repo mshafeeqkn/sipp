@@ -85,18 +85,7 @@
     </action>
   </recv>
 
-  <nop>
-    <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0"/>
-    </action>
-  </nop>
   <pause milliseconds="10000"/>
-  <nop crlf="true">
-    <action>
-      <exec rtp_stream="pause"/>
-    </action>
-  </nop>
-
 
   <send retrans="500">
     <![CDATA[

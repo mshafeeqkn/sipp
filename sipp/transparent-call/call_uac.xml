@@ -57,13 +57,8 @@
   <recv response="183" optional="true">
   </recv>
 
-  <!-- By adding rrs="true" (Record Route Sets), the route sets         -->
-  <!-- are saved and used for following messages sent. Useful to test   -->
-  <!-- against stateful SIP proxies/B2BUAs.                             -->
   <recv response="200"/>
 
-  <!-- Packet lost can be simulated in any send/recv message by         -->
-  <!-- by adding the 'lost = "10"'. Value can be [1-100] percent.       -->
   <send crlf="true">
     <![CDATA[
 
@@ -81,71 +76,8 @@
     ]]>
   </send>
 
-  <!-- This delay can be customized by the -d command-line option       -->
-  <!-- or by adding a 'milliseconds = "value"' option here.             -->
-  <pause milliseconds="10000"/>
+  <pause milliseconds="5000"/>
 
-  <!-- Transfer to field2                                               -->
-  <send retrans="500">
-    <![CDATA[
-
-      REFER sip:[field1]@[remote_ip]:[remote_port] SIP/2.0
-      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
-      Max-Forwards: 70
-      From: <sip:[field0]@[remote_ip]>;tag=[pid]SIPpTag00[call_number]
-      To: <sip:[field1]@[remote_ip]>[peer_tag_param]
-      Contact: <sip:[field0]@[local_ip]:[local_port];ob>
-      Call-ID: [call_id]
-      CSeq: 2 REFER
-      Event: refer
-      Expires: 600
-      Accept: message/sipfrag;version=2.0
-      Allow-Events: presence, message-summary, refer
-      Refer-To: <sip:[field2]@[remote_ip]:[remote_port]>
-      Referred-By: <sip:[field0]@[remote_ip]:[remote_port]>
-      User-Agent: MicroSIP/3.20.3
-      Content-Length:  0
-
-    ]]>
-  </send>
-
-  <recv response="202"/>
-
-  <recv request="NOTIFY"/>
-
-  <send crlf="true">
-    <![CDATA[
-
-      SIP/2.0 200 OK
-      [last_Via:]
-      [last_From:]
-      [last_To:]
-      [last_Call-ID:]
-      [last_CSeq:]
-      Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
-      Content-Length: 0
-
-    ]]>
-  </send>
-
-  <recv request="NOTIFY"/>
-
-  <send crlf="true">
-    <![CDATA[
-
-      SIP/2.0 200 OK
-      [last_Via:]
-      [last_From:]
-      [last_To:]
-      [last_Call-ID:]
-      [last_CSeq:]
-      Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
-      Content-Length: 0
-
-    ]]>
-  </send>
-
-  <!-- The 'crlf' option inserts a blank line in the statistics report. -->
   <send retrans="500">
     <![CDATA[
 
@@ -165,10 +97,8 @@
   <recv response="200" crlf="true">
   </recv>
 
-  <!-- definition of the response time repartition table (unit is ms)   -->
   <ResponseTimeRepartition value="10, 20, 30, 40, 50, 100, 150, 200"/>
 
-  <!-- definition of the call length repartition table (unit is ms)     -->
-  <CallLengthRepartition value="10, 50, 100, 500, 1000, 5000, 10000"/>
+  <CallLengthRepartition value="10, 50, 100, 500, 1000, 5000, 10000"/-->
 
 </scenario>

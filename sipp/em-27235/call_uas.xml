@@ -24,7 +24,12 @@
   <!-- are saved and used for following messages sent. Useful to test   -->
   <!-- against stateful SIP proxies/B2BUAs.                             -->
   <recv request="INVITE">
+    <action>
+      <ereg regexp=".*" search_in="hdr" header="From" assign_to="remote_from"/>
+      <ereg regexp="sip:(.*)>.*" search_in="hdr" header="Contact" assign_to="trash,remote_contact"/>
+    </action>
   </recv>
+  <Reference variables="trash"/>
 
   <!-- The '[last_*]' keyword is replaced automatically by the          -->
   <!-- specified header if it was present in the last message received  -->
@@ -43,16 +48,14 @@
       SIP/2.0 180 Ringing
       [last_Via:]
       [last_From:]
-      [last_To:];tag=[pid]SIPpTag02[call_number]
+      [last_To:];tag=[pid]SIPpTag01[call_number]
       [last_Call-ID:]
       [last_CSeq:]
-      Contact: <sip:[field2]@[local_ip]:[local_port];transport=[transport]>
+      Contact: <sip:[field1]@[local_ip]:[local_port];transport=[transport]>
       Content-Length: 0
 
     ]]>
   </send>
-
-  <pause milliseconds="8000"/>
 
   <send retrans="500">
     <![CDATA[
@@ -60,10 +63,10 @@
       SIP/2.0 200 OK
       [last_Via:]
       [last_From:]
-      [last_To:];tag=[pid]SIPpTag02[call_number]
+      [last_To:];tag=[pid]SIPpTag01[call_number]
       [last_Call-ID:]
       [last_CSeq:]
-      Contact: <sip:[field2]@[local_ip]:[local_port];transport=[transport]>
+      Contact: <sip:[field1]@[local_ip]:[local_port];transport=[transport]>
       Content-Type: application/sdp
       Content-Length: [len]
 
@@ -78,36 +81,50 @@
     ]]>
   </send>
 
-  <recv request="ACK" rtd="true" crlf="true">
-    <action>
-      <ereg regexp=".*tag=(.*)" search_in="hdr" header="From:" assign_to="my_hdr,from_tag" />
-      <log message="From is [$my_hdr]"/>
-    </action>
+  <recv request="ACK" rtd="true">
   </recv>
 
-  <nop>
-    <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0"/>
-    </action>
-  </nop>
-  <pause milliseconds="10000"/>
-  <nop crlf="true">
-    <action>
-      <exec rtp_stream="pause"/>
-    </action>
-  </nop>
-
+  <pause milliseconds="5000" crlf="true"/>
 
   <send retrans="500">
     <![CDATA[
 
-      BYE sip:[field1]@[remote_ip]:[remote_port] SIP/2.0
+      INVITE [$remote_contact] SIP/2.0
       Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
-      From: [field2] <sip:[field2]@[local_ip]:[local_port]>;tag=[pid]SIPpTag02[call_number]
-      To: [field1] <sip:[field1]@[remote_ip]:[remote_port]>;tag=[$from_tag]
-      Contact: <sip:[field2]@[local_ip]:[local_port]>
-      Call-ID: [call_id]
-      CSeq: 3 BYE
+      From: [field1]  <sip:[field1]@[local_ip]:[local_port]>;tag=[pid]SIPpTag01[call_number]
+      To: [$remote_from]
+      [last_Call-ID:]
+      CSeq: [cseq] INVITE
+      Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+      Content-Type: application/sdp
+      Content-Length: [len]
+
+      v=0
+      o=user1 53655766 2353687638 IN IP[local_ip_type] [local_ip]
+      s=-
+      c=IN IP[media_ip_type] [media_ip]
+      t=0 0
+      m=audio [media_port] RTP/AVP 8 101
+      a=rtpmap:8 PCMA/8000
+      a=inactive
+
+    ]]>
+  </send>
+
+  <recv response="100" optional="true"/>
+
+  <recv response="200"/>
+
+  <send>
+    <![CDATA[
+
+      ACK [$remote_contact] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
+      From: [field1]  <sip:[field1]@[local_ip]:[local_port]>;tag=[pid]SIPpTag01[call_number]
+      To: [$remote_from]
+      [last_Call-ID:]
+      CSeq: [cseq] ACK
+      Contact: <sip:[local_ip]:[local_port];transport=[transport]>
       Max-Forwards: 70
       Subject: Performance Test
       Content-Length: 0
@@ -115,8 +132,69 @@
     ]]>
   </send>
 
-  <recv response="200" crlf="true">
+  <pause milliseconds="5000" crlf="true"/>
+
+  <send retrans="500">
+    <![CDATA[
+
+      INVITE [$remote_contact] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port]
+      From: [field1]  <sip:[field1]@[local_ip]:[local_port]>;tag=[pid]SIPpTag01[call_number]
+      To: [$remote_from]
+      [last_Call-ID:]
+      CSeq: [cseq] INVITE
+      Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+      Content-Type: application/sdp
+      Content-Length: [len]
+
+      v=0
+      o=user1 53655768 2353687640 IN IP[local_ip_type] [local_ip]
+      s=-
+      c=IN IP[media_ip_type] [media_ip]
+      t=0 0
+      m=audio [media_port] RTP/AVP 8 101
+      a=rtpmap:8 PCMA/8000
+
+    ]]>
+  </send>
+
+  <recv response="100" optional="true"/>
+
+  <recv response="200"/>
+
+  <send crlf="true">
+    <![CDATA[
+
+      ACK [$remote_contact] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
+      From: [field1]  <sip:[field1]@[local_ip]:[local_port]>;tag=[pid]SIPpTag01[call_number]
+      To: [$remote_from]
+      [last_Call-ID:]
+      CSeq: [cseq] ACK
+      Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+      Max-Forwards: 70
+      Subject: Performance Test
+      Content-Length: 0
+
+    ]]>
+  </send>
+
+  <recv request="BYE">
   </recv>
+
+  <send crlf="true">
+    <![CDATA[
+
+      SIP/2.0 200 OK
+      [last_Via:]
+      [last_From:]
+      [last_To:]
+      [last_Call-ID:]
+      [last_CSeq:]
+      Content-Length: 0
+
+    ]]>
+  </send>
 
   <!-- Keep the call open for a while in case the 200 is lost to be     -->
   <!-- able to retransmit it if we receive the BYE again.               -->

@@ -42,8 +42,10 @@
       s=-
       c=IN IP[media_ip_type] [media_ip]
       t=0 0
-      m=audio [rtpstream_audio_port] RTP/AVP 0
-      a=rtpmap:0 PCMU/8000
+      m=audio [auto_media_port] RTP/AVP 8 101
+      a=rtpmap:8 PCMA/8000
+      a=rtpmap:101 telephone-event/8000
+      a=fmtp:101 0-11,16
 
     ]]>
   </send>
@@ -81,89 +83,95 @@
     ]]>
   </send>
 
-  <!-- This delay can be customized by the -d command-line option       -->
-  <!-- or by adding a 'milliseconds = "value"' option here.             -->
-  <pause milliseconds="10000"/>
+  <nop crlf="true">
+    <action>
+      <exec play_pcap_audio="../sipp_traffic_pcma.pcap"/>
+    </action>
+  </nop>
 
-  <!-- Transfer to field2                                               -->
+  <recv request="INVITE"/>
+
   <send retrans="500">
-    <![CDATA[
-
-      REFER sip:[field1]@[remote_ip]:[remote_port] SIP/2.0
-      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
-      Max-Forwards: 70
-      From: <sip:[field0]@[remote_ip]>;tag=[pid]SIPpTag00[call_number]
-      To: <sip:[field1]@[remote_ip]>[peer_tag_param]
-      Contact: <sip:[field0]@[local_ip]:[local_port];ob>
-      Call-ID: [call_id]
-      CSeq: 2 REFER
-      Event: refer
-      Expires: 600
-      Accept: message/sipfrag;version=2.0
-      Allow-Events: presence, message-summary, refer
-      Refer-To: <sip:[field2]@[remote_ip]:[remote_port]>
-      Referred-By: <sip:[field0]@[remote_ip]:[remote_port]>
-      User-Agent: MicroSIP/3.20.3
-      Content-Length:  0
-
-    ]]>
-  </send>
-
-  <recv response="202"/>
-
-  <recv request="NOTIFY"/>
-
-  <send crlf="true">
     <![CDATA[
 
       SIP/2.0 200 OK
       [last_Via:]
       [last_From:]
-      [last_To:]
+      [last_To:];tag=[pid]SIPpTag00[call_number]
       [last_Call-ID:]
       [last_CSeq:]
       Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
-      Content-Length: 0
+      Content-Type: application/sdp
+      Content-Length: [len]
+
+      v=0
+      o=user1 53655767 2353687639 IN IP[local_ip_type] [local_ip]
+      s=-
+      c=IN IP[media_ip_type] [media_ip]
+      t=0 0
+      m=audio [auto_media_port] RTP/AVP 8 101
+      a=rtpmap:8 PCMA/8000
+      a=rtpmap:101 telephone-event/8000
+      a=fmtp:101 0-11,16
+      a=inactive
 
     ]]>
   </send>
 
-  <recv request="NOTIFY"/>
+  <recv request="ACK" rtd="true" crlf="true"/>
 
-  <send crlf="true">
+  <recv request="INVITE"/>
+
+  <send retrans="500">
     <![CDATA[
 
       SIP/2.0 200 OK
       [last_Via:]
       [last_From:]
-      [last_To:]
+      [last_To:];tag=[pid]SIPpTag00[call_number]
       [last_Call-ID:]
       [last_CSeq:]
       Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
-      Content-Length: 0
+      Content-Type: application/sdp
+      Content-Length: [len]
+
+      v=0
+      o=user1 53655777 2353687649 IN IP[local_ip_type] [local_ip]
+      s=-
+      c=IN IP[media_ip_type] [media_ip]
+      t=0 0
+      m=audio [auto_media_port] RTP/AVP 8 101
+      a=rtpmap:8 PCMA/8000
+      a=rtpmap:101 telephone-event/8000
+      a=fmtp:101 0-11,16
 
     ]]>
   </send>
 
-  <!-- The 'crlf' option inserts a blank line in the statistics report. -->
-  <send retrans="500">
-    <![CDATA[
+  <recv request="ACK" rtd="true" crlf="true"/>
 
-      BYE sip:[field1]@[remote_ip]:[remote_port] SIP/2.0
-      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
-      From: [field0] <sip:[field0]@[local_ip]:[local_port]>;tag=[pid]SIPpTag00[call_number]
-      To: [field1] <sip:[field1]@[remote_ip]:[remote_port]>[peer_tag_param]
-      Call-ID: [call_id]
-      CSeq: 3 BYE
-      Max-Forwards: 70
-      Subject: Performance Test
-      Content-Length: 0
+  <nop crlf="true">
+    <action>
+      <exec play_pcap_audio="../sipp_traffic_pcma.pcap"/>
+    </action>
+  </nop>
 
-    ]]>
-  </send>
-
-  <recv response="200" crlf="true">
+  <recv request="BYE">
   </recv>
+
+  <send crlf="true">
+    <![CDATA[
+
+      SIP/2.0 200 OK
+      [last_Via:]
+      [last_From:]
+      [last_To:]
+      [last_Call-ID:]
+      [last_CSeq:]
+      Content-Length: 0
+
+    ]]>
+  </send>
 
   <!-- definition of the response time repartition table (unit is ms)   -->
   <ResponseTimeRepartition value="10, 20, 30, 40, 50, 100, 150, 200"/>

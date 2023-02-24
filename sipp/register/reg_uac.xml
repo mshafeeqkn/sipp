@@ -3,7 +3,7 @@
 <scenario name="register_client">
   <send retrans="500">
     <![CDATA[
-      REGISTER sip:[remote_ip]; transport=[transport] SIP/2.0
+      REGISTER sip:[remote_ip];transport=[transport] SIP/2.0
       Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
       From: "[field0]"<sip:[field0]@[remote_ip];transport=[transport]>;tag=[call_number]
       To: "[field0]"<sip:[field0]@[remote_ip];transport=[transport]>
@@ -23,7 +23,7 @@
 
   <send retrans="500">
     <![CDATA[
-      REGISTER sip:[remote_ip]; transport=[transport] SIP/2.0
+      REGISTER sip:[remote_ip];transport=[transport] SIP/2.0
       Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
       From: "[field0]"<sip:[field0]@[remote_ip];transport=[transport]>;tag=[call_number]
       To: "[field0]"<sip:[field0]@[remote_ip];transport=[transport]>

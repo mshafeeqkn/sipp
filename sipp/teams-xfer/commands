@@ -1,5 +1,0 @@
-sipp-3.7 -sf initiator.xml -inf users.csv -i 10.10.1.1 -p 5060 172.16.1.53:5060 -m 1
-sipp-3.7 -sf xferee.xml    -inf users.csv -i 10.20.1.1 -p 5060 172.16.1.53:5060 -m 1
-sipp-3.7 -sf ref-rx.xml    -inf users.csv -i 10.30.1.1 -p 5060 172.16.1.53:5060 -m 1
-sipp-3.7 -sf target.xml    -inf users.csv -i 10.40.1.1 -p 5060 172.16.1.53:5060 -m 1
-

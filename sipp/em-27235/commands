@@ -1,0 +1,2 @@
+sipp -sf call_uac.xml -inf users.csv -i 10.1.5.1 -p 5060 10.1.1.20:5060 -m 1
+sipp -sf call_uas.xml -inf users.csv -i 172.17.5.1 -p 5060 172.17.1.20:5060 -m 1

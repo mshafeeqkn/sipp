@@ -1,0 +1,36 @@
+#!/bin/sh
+
+
+# Scenario
+# ----------
+#
+# LAN-UDP---\
+#            +---- Edgemarc ---- SIP Server ---- WAN client
+# LAN-TLS---/
+#
+# Here LAN-TLS is a trunking device and LAN-UDP registered at SIP server
+#
+
+
+DEV_NUM=47
+DEV_LAN_IP=1.1.1.$DEV_NUM
+DEV_WAN_IP=172.16.1.$DEV_NUM
+SIP_SEVER=172.16.1.134
+
+CALLER=172.16.1.104
+CALLEE=1.1.1.104
+TARGET=1.1.1.135
+
+# Callee:
+sudo sipp -i $CALLEE -p 5061 -inf users.csv -sf call_uas.xml -m 1 $DEV_LAN_IP:5061 -t ln \
+     -tls_cert dev_1.1.1.104.pem -tls_key dev_1.1.1.104.key -max_socket 100 -bg
+
+# Target:
+sudo sipp -sf call_target.xml -inf users.csv -i $TARGET -p 5060 $DEV_LAN_IP:5060 -m 1 -bg
+
+# Caller:
+sudo sipp -sf call_uac.xml -inf users.csv -i $CALLER -p 5060 $SIP_SEVER:5060 -m 1
+
+echo "============================CALL FINISHED=================================="
+
+sudo killall sipp
