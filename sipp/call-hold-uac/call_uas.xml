@@ -20,7 +20,6 @@
 
     ]]>
   </send>
-  <pause milliseconds="2000"/>
   <send>
     <![CDATA[
 
@@ -63,17 +62,6 @@
   <recv request="ACK" rtd="true" crlf="true">
   </recv>
 
-  <nop>
-    <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0,PCMU/8000"/>
-    </action>
-  </nop>
-  <pause milliseconds="10000"/>
-  <nop crlf="true">
-    <action>
-      <exec rtp_stream="pause"/>
-    </action>
-  </nop>
 
   <recv request="INVITE">
   </recv>
@@ -106,8 +94,6 @@
   <recv request="ACK" rtd="true" crlf="true">
   </recv>
 
-  <nop display=">>>>> Call HOLD <<<<" crlf="true"/>
-
   <recv request="INVITE">
   </recv>
 
@@ -139,18 +125,6 @@
   </recv>
 
   <nop display=">>>>> Call RESUME <<<<" crlf="true"/>
-
-  <nop>
-    <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0,PCMU/8000"/>
-    </action>
-  </nop>
-  <pause milliseconds="10000"/>
-  <nop crlf="true">
-    <action>
-      <exec rtp_stream="pause"/>
-    </action>
-  </nop>
 
   <recv request="BYE">
   </recv>

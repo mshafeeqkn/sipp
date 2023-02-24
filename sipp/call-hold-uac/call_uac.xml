@@ -54,17 +54,7 @@
     ]]>
   </send>
 
-  <nop>
-    <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0,PCMU/8000"/>
-    </action>
-  </nop>
-  <pause milliseconds="10000"/>
-  <nop crlf="true">
-    <action>
-      <exec rtp_stream="pause"/>
-    </action>
-  </nop>
+  <pause milliseconds="4000"/>
 
   <send retrans="500">
     <![CDATA[
@@ -88,7 +78,7 @@
       t=0 0
       m=audio [rtpstream_audio_port] RTP/AVP 0
       a=rtpmap:0 PCMU/8000
-      a=sendonly
+      a=inactive
 
     ]]>
   </send>
@@ -115,8 +105,8 @@
     ]]>
   </send>
 
-  <nop display=">>>>> Call HOLD <<<<" crlf="true"/>
-  <pause milliseconds="10000"/>
+  <pause/>
+
   <send retrans="500">
     <![CDATA[
 
@@ -164,20 +154,6 @@
 
     ]]>
   </send>
-
-  <nop display=">>>>> Call RESUME <<<<" crlf="true"/>
-  <nop>
-    <action>
-       <exec rtp_stream="../audio/pcmu_quran.wav,-1,0,PCMU/8000"/>
-    </action>
-  </nop>
-  <pause milliseconds="10000"/>
-  <nop crlf="true">
-    <action>
-      <exec rtp_stream="pause"/>
-    </action>
-  </nop>
-
 
   <send retrans="500">
     <![CDATA[
